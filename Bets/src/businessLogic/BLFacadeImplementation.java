@@ -193,6 +193,8 @@ public class BLFacadeImplementation  implements BLFacade {
 
 	@Override
 	public Cliente getClientByUsername(String pusername) {
+		if (pusername.equals("")) return null;
+		else if (pusername==null)return null;
 		DataAccess dbManager= new DataAccess();
 		Cliente CliDB = dbManager.getClientByUsername(pusername);
 		dbManager.close();
