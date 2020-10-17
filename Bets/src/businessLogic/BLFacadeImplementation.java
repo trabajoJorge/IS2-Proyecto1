@@ -196,7 +196,6 @@ public class BLFacadeImplementation  implements BLFacade {
 		DataAccess dbManager= new DataAccess();
 		if (pusername.equals("")) return null;
 		else if (pusername==null)return null;
-		//else if (dbManager.C<>());
 		Cliente CliDB = dbManager.getClientByUsername(pusername);
 		dbManager.close();
 		return CliDB;
