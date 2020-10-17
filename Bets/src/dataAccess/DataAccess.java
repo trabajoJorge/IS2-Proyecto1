@@ -802,11 +802,14 @@ public class DataAccess {
 			return false;
 		}
 	}
-
-	public Cliente getClientByUsername(String pusername) {
+	public List<Cliente> getAllClients(){
 		System.out.println(">> DataAccess: getClientByUsername");
 		TypedQuery<Cliente> query = db.createQuery("SELECT cli FROM Cliente cli", Cliente.class);
-		List<Cliente> cliList = query.getResultList();
+		return query.getResultList();
+	}
+
+	public Cliente getClientByUsername(String pusername) {
+		List<Cliente> cliList = getAllClients();
 		for (Cliente c : cliList) {
 			if (c.getUsername().equals(pusername))
 				return c;
