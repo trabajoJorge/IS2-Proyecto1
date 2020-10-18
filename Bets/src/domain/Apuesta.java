@@ -42,7 +42,7 @@ public class Apuesta extends ApuestaGlobal implements Serializable {
 		String strDateFormat = "dd-MM-yyyy";
 		SimpleDateFormat fecha = new SimpleDateFormat(strDateFormat);
 		Date f= this.getAnswer().getQuestion().getEvent().getEventDate();
-		return "Id "+this.getIdBet()+"/"+fecha.format(f)+"/"+this.getAnswer().getQuestion()+"/"+this.getAnswer();
+		return fecha.format(f)+"/"+this.getAnswer().getQuestion()+"/"+this.getAnswer();
 	}
 
 

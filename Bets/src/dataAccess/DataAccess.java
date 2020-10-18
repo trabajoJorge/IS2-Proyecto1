@@ -537,12 +537,12 @@ public class DataAccess {
 
 					try {
 						db.getTransaction().begin();
-						CuentaGlobal cuentaGlobal = db.find(CuentaGlobal.class, 1);
+						//CuentaGlobal cuentaGlobal = db.find(CuentaGlobal.class, 1);
 						Apuesta ap = pselectedAnswer.addBet(pselectedAmount, clientdb);
-						cuentaGlobal.addBet(ap);
+						//cuentaGlobal.addBet(ap);
 						db.persist(ap);
 
-						cuentaGlobal.setSaldoGlobal(cuentaGlobal.getSaldoGlobal() + pselectedAmount);
+						//cuentaGlobal.setSaldoGlobal(cuentaGlobal.getSaldoGlobal() + pselectedAmount);
 						clientdb.setSaldo(clientdb.getSaldo() - pselectedAmount);
 						// JOptionPane.showMessageDialog(null, cl.getSaldo());
 						db.persist(clientdb);

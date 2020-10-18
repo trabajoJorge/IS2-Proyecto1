@@ -10,19 +10,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import businessLogic.BLFacadeImplementation;
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
 import domain.Answer;
+import domain.Cliente;
 import domain.Event;
 import domain.Question;
 import exceptions.EventFinished;
@@ -105,6 +106,27 @@ class FacadeTest {
 	void createQuestionBLMocktest2() {
 		List<Answer> expected = null;
 		List<Answer> obtained = sut.getAnswersByQuestion(null);
+		assertEquals(expected, obtained);
+	}
+
+	@Test
+	public void getClientByUsernameTest2() {
+		Cliente expected = null;
+		Cliente obtained = sut.getClientByUsername(null);
+		assertEquals(expected, obtained);
+	}
+
+	@Test
+	public void getClientByUsernameTest3() {
+		Cliente expected = null;
+		Cliente obtained = sut.getClientByUsername("");
+		assertEquals(expected, obtained);
+	}
+	
+	@Test
+	public void BetsByClientTest1() {
+		Cliente expected = null;
+		Cliente obtained = sut.getClientByUsername(null);
 		assertEquals(expected, obtained);
 	}
 }

@@ -21,10 +21,15 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import com.objectdb.o.HST.A;
+import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
 import dataAccess.DataAccess;
 import domain.Answer;
+import domain.Apuesta;
+import domain.Cliente;
 import domain.Event;
 import domain.Question;
 import exceptions.EventFinished;
@@ -63,7 +68,7 @@ class FacadeMockTest {
 			// invoke System Under Test (sut)
 			assertThrows(QuestionAlreadyExist.class, () -> sut.createQuestion(mockedEvent, queryText, betMinimum));
 
-		} catch (ParseException |  QuestionAlreadyExist e) {
+		} catch (ParseException | QuestionAlreadyExist e) {
 			fail("No problems should arise: ParseException/QuestionaAlreadyExist");
 		}
 	}
@@ -102,7 +107,7 @@ class FacadeMockTest {
 
 		}
 	}
-	
+
 	@Test
 	@DisplayName("getAnswersByQuestionMock1 - Todo funciona correctamente")
 	void createQuestionMock1() {
@@ -114,8 +119,8 @@ class FacadeMockTest {
 			Question q1 = new Question("¿Ganador?", 12.0f, e1);
 			Answer a11 = new Answer("FC Barcelona", 2.0f, q1);
 			Answer a12 = new Answer("Malaga", 20.0f, q1);
-			ArrayList<Question> ArrayQuestions= new ArrayList<Question>();
-			ArrayList<Answer> ArrayAnswers= new ArrayList<Answer>();
+			ArrayList<Question> ArrayQuestions = new ArrayList<Question>();
+			ArrayList<Answer> ArrayAnswers = new ArrayList<Answer>();
 			ArrayQuestions.add(q1);
 			ArrayAnswers.add(a11);
 			ArrayAnswers.add(a12);
@@ -129,7 +134,7 @@ class FacadeMockTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	@DisplayName("getAnswersByQuestionMock3 - La pregunta no esta en la BD")
 	void createQuestionMock3() {
@@ -141,7 +146,7 @@ class FacadeMockTest {
 			Question q2 = new Question("¿Goleador", 20.0f, e2);
 			Event e1 = new Event("Carreras", oneDate);
 			Question q1 = new Question("¿Ganador?", 12.0f, e1);
-			ArrayList<Question> ArrayQuestions= new ArrayList<Question>();
+			ArrayList<Question> ArrayQuestions = new ArrayList<Question>();
 			ArrayQuestions.add(q2);
 			Mockito.doReturn(ArrayQuestions).when(dataAccess).getAllQuestions();
 			Mockito.doReturn(false).when(dataAccess).questionExist(q1);
@@ -152,24 +157,105 @@ class FacadeMockTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	@DisplayName("getAnswersByQuestionMock4 - La pregunta no tiene respuestas")
-	void createQuestionMock4() {
+	void getAnswersByQuestionMock4() {
 		try {
 			Date oneDate;
 			oneDate = sdf.parse("02/05/2021");
 			Event e1 = new Event("Carreras", oneDate);
 			Question q1 = new Question("¿Ganador?", 12.0f, e1);
-			ArrayList<Question> ArrayQuestions= new ArrayList<Question>();
+			ArrayList<Question> ArrayQuestions = new ArrayList<Question>();
 			ArrayQuestions.add(q1);
 			Mockito.doReturn(ArrayQuestions).when(dataAccess).getAllQuestions();
 			Mockito.doReturn(true).when(dataAccess).questionExist(q1);
-			ArrayList<Answer> expected= new ArrayList<Answer>();
+			ArrayList<Answer> expected = new ArrayList<Answer>();
 			ArrayList<Answer> obtained = new ArrayList<Answer>(sut.getAnswersByQuestion(q1));
 			assertEquals(expected, obtained);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
+
+	@Test
+	public void getClientByUsernameTest1() {
+		Cliente expected = new Cliente("bryanespada", "123", "bryan@gmail.com");
+		Mockito.doReturn(true).when(dataAccess).clientExist("bryanespada");
+		Mockito.doReturn(expected).when(dataAccess).getClientByUsername("bryanespada");
+		Cliente obtained = sut.getClientByUsername("bryanespada");
+		assertEquals(expected, obtained);
+	}
+
+	@Test
+	public void getClientByUsernameTest4() {
+		Cliente expected = null;
+		Mockito.doReturn(false).when(dataAccess).clientExist("bryanespada");
+		Cliente obtained = sut.getClientByUsername("mauricg");
+		assertEquals(expected, obtained);
+	}
+
+	@Test
+	public void getClientByUsernameTest5() {
+		Cliente expected = null;
+		Mockito.doReturn(false).when(dataAccess).clientExist("bryanespada");
+		Cliente obtained = sut.getClientByUsername("mauricg");
+		assertEquals(expected, obtained);
+	}
+
+	@Test
+	public void BetsByClientTest2() {
+		ArrayList<Apuesta> expected = null;
+		Cliente c1 = new Cliente("bryanespada", "123", "bryan@gmail.com");
+		Mockito.doReturn(false).when(dataAccess).clientExist(c1.getUsername());
+		ArrayList<Apuesta> obtained = sut.BetsByClient(c1);
+		assertEquals(expected, obtained);
+	}
+
+	@Test
+	public void BetsByClientTest3() {
+		Cliente expected = null;
+		Mockito.doReturn(true).when(dataAccess).clientExist("Jorge");
+		Cliente c1 = new Cliente("bryanespada", "123", "bryan@gmail.com");
+		Cliente obtained = sut.getClientByUsername("Jorge");
+		Mockito.doReturn(true).when(dataAccess).clientExist(c1.getUsername());
+		List<Apuesta> apulist = null;
+		Mockito.doReturn(apulist).when(dataAccess).getAllApuestas();
+		assertEquals(expected, obtained);
+	}
+
+	@Test
+	public void BetsByClientTest4() {
+		Date oneDate;
+		try {
+			oneDate = sdf.parse("02/05/2021");
+			Mockito.doReturn(true).when(dataAccess).clientExist("Jorge");
+			Cliente c1 = new Cliente("bryanespada", "123", "bryan@gmail.com");
+			Mockito.doReturn(true).when(dataAccess).clientExist(c1.getUsername());
+			Event e1=   new Event(queryText, oneDate);
+			Question q1= new Question("hola", betMinimum, e1);
+			Answer a1= new Answer("sdsad", 10.0f, q1);
+			Apuesta apu1= new Apuesta(a1, betMinimum, oneDate, c1);
+			Apuesta apu2= new Apuesta(a1, betMinimum+8.0f, oneDate, c1);
+			List<Apuesta> apulist = new ArrayList<Apuesta>();
+			apulist.add(apu1);
+			apulist.add(apu2);
+			Mockito.doReturn(apulist).when(dataAccess).getAllApuestas();
+			Mockito.doReturn(apulist).when(dataAccess).BetsByClient(c1);
+			ArrayList<Apuesta> obtained = sut.BetsByClient(c1);
+			ArrayList<Apuesta> expected = listToArrayList(apulist);
+			assertEquals(expected, obtained);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+	}
+	public static ArrayList<Apuesta> listToArrayList(List<Apuesta> myList) {
+        ArrayList<Apuesta> arl = new ArrayList<Apuesta>();
+        for (Apuesta object : myList) {
+            arl.add((Apuesta) object);
+        }
+        return arl;
+
+    }
 }
