@@ -63,11 +63,11 @@ public class BLFacadeImplementation implements BLFacade {
 	 * @throws QuestionAlreadyExist if the same question already exists for the
 	 *                              event
 	 */
-	
+
 	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * 				BRYAN
 	 */
-	
+
 	@Override
 	public Cliente getClientByUsername(String pusername) {
 		dbManager.open(false);
@@ -87,7 +87,7 @@ public class BLFacadeImplementation implements BLFacade {
 			return CliDB;
 		}
 	}
-	
+
 	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * 				MAURI 	
 	 */
@@ -97,7 +97,7 @@ public class BLFacadeImplementation implements BLFacade {
 		if (c == null) {
 			dbManager.close();
 			return null;
-		} else if ( !(dbManager.clientExist(c.getUsername()))) {
+		} else if (!(dbManager.clientExist(c.getUsername()))) {
 			dbManager.close();
 			return null;
 		}
@@ -106,11 +106,12 @@ public class BLFacadeImplementation implements BLFacade {
 			dbManager.close();
 			return null;
 		} else {
-			ArrayList<Apuesta> result= dbManager.BetsByClient(c);
+			ArrayList<Apuesta> result = dbManager.BetsByClient(c);
 			dbManager.close();
 			return result;
 		}
 	}
+
 	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * 				JORGE
 	 */
@@ -120,20 +121,21 @@ public class BLFacadeImplementation implements BLFacade {
 		if (q == null) {
 			dbManager.close();
 			return null;
-		} else if (!(dbManager.questionExist(q)) ) {
-			dbManager.close();
-			return null;
 		}
 		ArrayList<Question> AnsList = dbManager.getAllQuestions();
 		if ((AnsList.isEmpty())) {
 			dbManager.close();
 			return null;
+		} else if (!(dbManager.questionExist(q))) {
+			dbManager.close();
+			return null;
 		} else {
-			List<Answer> result=dbManager.getAnswersByQuestion(q);
+			List<Answer> result = dbManager.getAnswersByQuestion(q);
 			dbManager.close();
 			return result;
 		}
 	}
+
 	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	*/
 	@WebMethod
@@ -245,8 +247,6 @@ public class BLFacadeImplementation implements BLFacade {
 		dbManager.close();
 		return apuestaCreada;
 	}
-
-	
 
 	public Admin getAdminByUsername(String pusername) {
 		DataAccess dbManager = new DataAccess();

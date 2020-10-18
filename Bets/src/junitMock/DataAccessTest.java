@@ -122,25 +122,92 @@ class DataAccessTest {
 			e.printStackTrace();
 		}
 	}
+
+	
+
 	@Test
-	@DisplayName("Prueba getAnswersByQuestion")
-	void getAnswersByQuestionTest() {
+	@DisplayName("getAnswersByQuestion1 - BD sin preguntas")
+	void getAnswersByQuestionTest1() {
 		try {
-			Date oneDate;
-			oneDate = sdf.parse("05/10/2022");
-			sut.doRegister("Juanito0634", "Patata", "juan@gmail.com");
-			Cliente c = sut.getClientByUsername("Juanito0634");
-			c.setSaldo(8000.0f);
-			ev = testBL.addEvent(queryText, oneDate);
-			Question q = sut.createQuestion(ev, queryText, betMinimum);
-			Answer a = new Answer(queryText, betMinimum, q);
-			sut.insertAnswer(a);
+			Date oneDate = sdf.parse("02/05/2021");
+			Event e1 = new Event("Carreras", oneDate);
+			Question q1 = new Question("¿Ganador?", 12.0f, e1);
 			ArrayList<Answer> expected= new ArrayList<Answer>();
-			expected.add(a);
-			ArrayList<Answer> obtained= sut.getAnswersByQuestion(q);
+			ArrayList<Answer> obtained= sut.getAnswersByQuestion(q1);
 			assertEquals(expected, obtained);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Falla el 1");
+		}
+	}
+	
+	@Test
+	@DisplayName("getAnswersByQuestion2 - Pregunta no esta en la BD ")
+	void getAnswersByQuestionTest2() {
+		try {
+			Date oneDate = sdf.parse("02/05/2021");
+			Date otherDate = sdf.parse("02/07/2021");
+			Event e1 = testBL.addEvent("Carreras", oneDate);
+			Question q1 = new Question("¿Ganador?", 12.0f, e1);
+			ArrayList<Answer> expected= new ArrayList<Answer>();
+			ArrayList<Answer> obtained= sut.getAnswersByQuestion(q1);
+			assertEquals(expected, obtained);
+		} catch (Exception e) {
+			System.out.println("Falla el 2");
+		}
+	}
+	
+	@Test
+	@DisplayName("getAnswersByQuestion3 - Pregunta no tiene respuesta ")
+	void getAnswersByQuestionTest3() {
+		try {
+			Date oneDate = sdf.parse("02/05/2021");
+			Date otherDate = sdf.parse("02/07/2021");
+			Event e1 = testBL.addEvent("Carreras", oneDate);
+			Question q1 = sut.createQuestion(e1, "¿Ganador?", 12.0f);
+			ArrayList<Answer> expected= new ArrayList<Answer>();
+			ArrayList<Answer> obtained= sut.getAnswersByQuestion(q1);
+			assertEquals(expected, obtained);
+		} catch (Exception e) {
+			System.out.println("Falla el 3");
+		}
+	}
+	
+	@Test
+	@DisplayName("getAnswersByQuestion4 - La pregunta tiene una respuesta")
+	void getAnswersByQuestionTest4() {
+		try {
+			Date oneDate = sdf.parse("02/05/2021");
+			Event e1 = testBL.addEvent("Carreras", oneDate);
+			Question q1 = sut.createQuestion(e1, "¿Ganador?", 12.0f);
+			Answer a11 = new Answer("FC Barcelona", 2.0f, q1);
+			sut.insertAnswer(a11);
+			ArrayList<Answer> expected = new ArrayList<Answer>();
+			expected.add(a11);
+			ArrayList<Answer> obtained = sut.getAnswersByQuestion(q1);
+			assertEquals(expected, obtained);
+		} catch (Exception e) {
+			System.out.println("Falla el 1");
+		}
+	}
+	
+	@Test
+	@DisplayName("getAnswersByQuestion5 - La pregunta tiene varias respuestas")
+	void getAnswersByQuestionTest5() {
+		try {
+			Date oneDate = sdf.parse("02/05/2021");
+			Event e1 = testBL.addEvent("Carreras", oneDate);
+			Question q1 = sut.createQuestion(e1, "¿Ganador?", 12.0f);
+			Answer a11 = new Answer("FC Barcelona", 2.0f, q1);
+			Answer a12 = new Answer("Malaga", 20.0f, q1);
+			sut.insertAnswer(a11);
+			sut.insertAnswer(a12);
+			ArrayList<Answer> expected = new ArrayList<Answer>();
+			expected.add(a11);
+			expected.add(a12);
+			ArrayList<Answer> obtained = sut.getAnswersByQuestion(q1);
+			assertEquals(expected, obtained);
+		} catch (Exception e) {
+			System.out.println("Falla el 1");
 		}
 	}
 }
