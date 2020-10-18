@@ -63,6 +63,79 @@ public class BLFacadeImplementation implements BLFacade {
 	 * @throws QuestionAlreadyExist if the same question already exists for the
 	 *                              event
 	 */
+	
+	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * 				BRYAN
+	 */
+	
+	@Override
+	public Cliente getClientByUsername(String pusername) {
+		dbManager.open(false);
+		if (pusername == null) {
+			dbManager.close();
+			return null;
+		}
+		if (pusername.equals("")) {
+			dbManager.close();
+			return null;
+		} else if (!dbManager.clientExist(pusername)) {
+			dbManager.close();
+			return null;
+		} else {
+			Cliente CliDB = dbManager.getClientByUsername(pusername);
+			dbManager.close();
+			return CliDB;
+		}
+	}
+	
+	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * 				MAURI 	
+	 */
+	@Override
+	public ArrayList<Apuesta> BetsByClient(Cliente c) {
+		dbManager.open(false);
+		if (c == null) {
+			dbManager.close();
+			return null;
+		} else if ( !(dbManager.clientExist(c.getUsername()))) {
+			dbManager.close();
+			return null;
+		}
+		List<Apuesta> ApuList = dbManager.getAllApuestas();
+		if ((ApuList.isEmpty())) {
+			dbManager.close();
+			return null;
+		} else {
+			ArrayList<Apuesta> result= dbManager.BetsByClient(c);
+			dbManager.close();
+			return result;
+		}
+	}
+	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * 				JORGE
+	 */
+	@Override
+	public List<Answer> getAnswersByQuestion(Question q) {
+		dbManager.open(false);
+		if (q == null) {
+			dbManager.close();
+			return null;
+		} else if (!(dbManager.questionExist(q)) ) {
+			dbManager.close();
+			return null;
+		}
+		ArrayList<Question> AnsList = dbManager.getAllQuestions();
+		if ((AnsList.isEmpty())) {
+			dbManager.close();
+			return null;
+		} else {
+			List<Answer> result=dbManager.getAnswersByQuestion(q);
+			dbManager.close();
+			return result;
+		}
+	}
+	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	*/
 	@WebMethod
 	public Question createQuestion(Event event, String question, float betMinimum)
 			throws EventFinished, QuestionAlreadyExist {
@@ -156,14 +229,6 @@ public class BLFacadeImplementation implements BLFacade {
 	}
 
 	@Override
-	public List<Answer> getAnswersByQuestion(Question pselectedQuestion) {
-		dbManager.open(false);
-		List<Answer> answers = dbManager.getAnswersByQuestion(pselectedQuestion);
-		dbManager.close();
-		return answers;
-	}
-
-	@Override
 	public List<Answer> getOpenAnswersByQuestion(Question pselectedQuestion) {
 		dbManager.open(false);
 		List<Answer> answers = dbManager.getOpenAnswersByQuestion(pselectedQuestion);
@@ -181,45 +246,7 @@ public class BLFacadeImplementation implements BLFacade {
 		return apuestaCreada;
 	}
 
-	@Override
-	public Cliente getClientByUsername(String pusername) {
-		dbManager.open(false);
-		if (pusername == null) {
-			dbManager.close();
-			return null;
-		}
-		if (pusername.equals("")) {
-			dbManager.close();
-			return null;
-		} else if (!dbManager.clientExist(pusername)) {
-			dbManager.close();
-			return null;
-		} else {
-			Cliente CliDB = dbManager.getClientByUsername(pusername);
-			dbManager.close();
-			return CliDB;
-		}
-	}
-
-	@Override
-	public ArrayList<Apuesta> BetsByClient(Cliente c) {
-		dbManager.open(false);
-		if (c == null) {
-			dbManager.close();
-			return null;
-		} else if ( !(dbManager.clientExist(c.getUsername()))) {
-			dbManager.close();
-			return null;
-		}
-		List<Apuesta> ApuList = dbManager.getAllApuestas();
-		if ((ApuList.isEmpty())) {
-			dbManager.close();
-			return null;
-		} else {
-			dbManager.close();
-			return dbManager.BetsByClient(c);
-		}
-	}
+	
 
 	public Admin getAdminByUsername(String pusername) {
 		DataAccess dbManager = new DataAccess();

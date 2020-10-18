@@ -93,9 +93,9 @@ class DataAccessTest {
 	@Test
 	@DisplayName("Prueba getClientByUsername")
 	void getClientByUsernameTest() {
-		sut.doRegister("Juanito0634", "Patata", "juan@gmail.com");
-		String obtained = sut.getClientByUsername("Juanito0634").getUsername();
-		String expected = (new Cliente("Juanito0634", "Patata", "juan@gmail.com")).getUsername();
+		sut.doRegister("Juanito034", "Patata", "juan@gmail.com");
+		String obtained = sut.getClientByUsername("Juanito034").getUsername();
+		String expected = (new Cliente("Juanito034", "Patata", "juan@gmail.com")).getUsername();
 		assertEquals(expected, obtained);
 	}
 
@@ -111,6 +111,7 @@ class DataAccessTest {
 			ev = testBL.addEvent(queryText, oneDate);
 			Question q = sut.createQuestion(ev, queryText, betMinimum);
 			Answer a = new Answer(queryText, betMinimum, q);
+			sut.insertAnswer(a);
 			sut.createApuesta(a, c, betMinimum, q);
 			Apuesta e = new Apuesta(a, betMinimum, oneDate, c);
 			ArrayList<Apuesta> expected = new ArrayList<Apuesta>();
@@ -121,5 +122,25 @@ class DataAccessTest {
 			e.printStackTrace();
 		}
 	}
-
+	@Test
+	@DisplayName("Prueba getAnswersByQuestion")
+	void getAnswersByQuestionTest() {
+		try {
+			Date oneDate;
+			oneDate = sdf.parse("05/10/2022");
+			sut.doRegister("Juanito0634", "Patata", "juan@gmail.com");
+			Cliente c = sut.getClientByUsername("Juanito0634");
+			c.setSaldo(8000.0f);
+			ev = testBL.addEvent(queryText, oneDate);
+			Question q = sut.createQuestion(ev, queryText, betMinimum);
+			Answer a = new Answer(queryText, betMinimum, q);
+			sut.insertAnswer(a);
+			ArrayList<Answer> expected= new ArrayList<Answer>();
+			expected.add(a);
+			ArrayList<Answer> obtained= sut.getAnswersByQuestion(q);
+			assertEquals(expected, obtained);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

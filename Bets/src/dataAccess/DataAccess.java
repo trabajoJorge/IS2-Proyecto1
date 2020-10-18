@@ -83,159 +83,120 @@ public class DataAccess {
 	 */
 	public void initializeDB() {
 
-		/*db.getTransaction().begin();
-		try {
-
-			Calendar today = Calendar.getInstance();
-
-			int month = today.get(Calendar.MONTH);
-			month += 1;
-			int year = today.get(Calendar.YEAR);
-			if (month == 12) {
-				month = 0;
-				year += 1;
-			}
-
-			Event ev1 = new Event(1, "Atletico-Athletic", UtilDate.newDate(year, month, 17));
-			Question q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
-
-			Event ev2 = new Event(2, "Eibar-Barcelona", UtilDate.newDate(year, month, 17));
-			Event ev3 = new Event(3, "Getafe-Celta", UtilDate.newDate(year, month, 17));
-			Event ev4 = new Event(4, "AlavÃ©s-Deportivo", UtilDate.newDate(year, month, 17));
-			Event ev5 = new Event(5, "EspaÃ±ol-Villareal", UtilDate.newDate(year, month, 17));
-			Event ev6 = new Event(6, "Las Palmas-Sevilla", UtilDate.newDate(year, month, 17));
-			Event ev7 = new Event(7, "Malaga-Valencia", UtilDate.newDate(year, month, 17));
-			Event ev8 = new Event(8, "Girona-LeganÃ©s", UtilDate.newDate(year, month, 17));
-			Event ev9 = new Event(9, "Real Sociedad-Levante", UtilDate.newDate(year, month, 17));
-			Event ev10 = new Event(10, "Betis-Real Madrid", UtilDate.newDate(year, month, 17));
-
-			Event ev11 = new Event(11, "AtlÃ©tico-Athletic", UtilDate.newDate(year, month, 1));
-			Event ev12 = new Event(12, "Eibar-Barcelona", UtilDate.newDate(year, month, 1));
-			Event ev13 = new Event(13, "Getafe-Celta", UtilDate.newDate(year, month, 1));
-			Event ev14 = new Event(14, "AlavÃ©s-Deportivo", UtilDate.newDate(year, month, 1));
-			Event ev15 = new Event(15, "EspaÃ±ol-Villareal", UtilDate.newDate(year, month, 1));
-			Event ev16 = new Event(16, "Las Palmas-Sevilla", UtilDate.newDate(year, month, 1));
-
-			Event ev17 = new Event(17, "MÃ¡laga-Valencia", UtilDate.newDate(year, month, 28));
-			Event ev18 = new Event(18, "Girona-LeganÃ©s", UtilDate.newDate(year, month, 28));
-			Event ev19 = new Event(19, "Real Sociedad-Levante", UtilDate.newDate(year, month, 28));
-			Event ev20 = new Event(20, "Betis-Real Madrid", UtilDate.newDate(year, month, 28));
-
-			Question q2 = ev1.addQuestion("Â¿QuiÃ©n meterÃ¡ el primer gol?", 2);
-			Question q3 = ev11.addQuestion("Â¿QuiÃ©n ganarÃ¡ el partido?", 1);
-			Question q4 = ev11.addQuestion("Â¿CuÃ¡ntos goles se marcarÃ¡n?", 2);
-			Question q5 = ev17.addQuestion("Â¿QuiÃ©n ganarÃ¡ el partido?", 1);
-			Question q6 = ev17.addQuestion("Â¿HabrÃ¡ goles en la primera parte?", 2);
-
-			Answer ans01 = q1.addAnswer("Gana AtlÃ©tico", (float) 1.5);
-			Answer ans02 = q1.addAnswer("Gana Athletic", (float) 2.0);
-			Answer ans03 = q1.addAnswer("Empate", (float) 3.5);
-			Answer ans04 = q1.addAnswer("Sin goles", (float) 2.5);
-
-			Answer ans05 = q2.addAnswer("Jugador 1", (float) 4.5);
-			Answer ans06 = q2.addAnswer("Jugador 2", (float) 1.6);
-			Answer ans07 = q2.addAnswer("Jugador 3", (float) 6.0);
-			Answer ans08 = q2.addAnswer("Jugador 4", (float) 2.5);
-
-			db.persist(q1);
-			db.persist(q2);
-			db.persist(q3);
-			db.persist(q4);
-			db.persist(q5);
-			db.persist(q6);
-
-			db.persist(ev1);
-			db.persist(ev2);
-			db.persist(ev3);
-			db.persist(ev4);
-			db.persist(ev5);
-			db.persist(ev6);
-			db.persist(ev7);
-			db.persist(ev8);
-			db.persist(ev9);
-			db.persist(ev10);
-			db.persist(ev11);
-			db.persist(ev12);
-			db.persist(ev13);
-			db.persist(ev14);
-			db.persist(ev15);
-			db.persist(ev16);
-			db.persist(ev17);
-			db.persist(ev18);
-			db.persist(ev19);
-			db.persist(ev20);
-
-			db.persist(ans01);
-			db.persist(ans02);
-			db.persist(ans03);
-			db.persist(ans04);
-
-			db.persist(ans05);
-			db.persist(ans06);
-			db.persist(ans07);
-			db.persist(ans08);
-
-			// USUARIOS CLIENTES
-			Cliente cli01 = new Cliente("user1", "pass1", "user1@mail.com", (float) 10.11, "Usuario1 Apellido1",
-					"ES12 3445 4567 2320 3456 8654 1234", "1245 6543 3456 8766");
-			Cliente cli02 = new Cliente("user2", "pass2", "user2@mail.com", (float) 20.22, "Usuario2 Apellido2",
-					"ES23 3445 4567 2320 3456 8654 1234", "2345 6543 3456 8766");
-			Cliente cli03 = new Cliente("user3", "pass3", "user3@mail.com", (float) 30.33, "Usuario3 Apellido3",
-					"ES34 3445 4567 2320 3456 8654 1234", "3445 6543 3456 8766");
-			Cliente cli04 = new Cliente("user4", "pass4", "user4@mail.com", (float) 40.44, "Usuario4 Apellido4",
-					"ES45 3445 4567 2320 3456 8654 1234", "4545 6543 3456 8766");
-			Cliente cli05 = new Cliente("user5", "pass5", "user5@mail.com", (float) 50.55, "Usuario5 Apellido5",
-					"ES56 3445 4567 2320 3456 8654 1234", "5645 6543 3456 8766");
-			Cliente cli = new Cliente("u", "", "user@mail.com", (float) 10.11, "Usuario1 Apellido1",
-					"ES12 3445 4567 2320 3456 8654 1234", "1245 6543 3456 8766");
-
-			db.persist(cli);
-			db.persist(cli02);
-			db.persist(cli03);
-			db.persist(cli04);
-			db.persist(cli05);
-
-			// USUARIOS ADMINISTRADORES
-			Admin adm = new Admin("", "admin@mail.com", "");
-			Admin adm01 = new Admin("admin1", "admin1@mail.com", "pass1");
-			Admin adm02 = new Admin("admin2", "admin2@mail.com", "pass2");
-
-			db.persist(adm);
-			db.persist(adm01);
-			db.persist(adm02);
-
-			// CUENTA GLOBAL
-			CuentaGlobal cg = new CuentaGlobal(1, (float) 1100.0);
-			db.persist(cg);
-
-			// PUESTAS DE PRUEBA EN CLIENTE 1
-			Apuesta apu01 = ans01.addBet((float) 10.0, cli01);
-			Apuesta apu02 = ans02.addBet((float) 20.0, cli01);
-			Apuesta apu03 = ans03.addBet((float) 30.0, cli01);
-			Apuesta apu04 = ans04.addBet((float) 40.0, cli01);
-
-			cli01.addBet(apu01);
-			cli01.addBet(apu02);
-			cli01.addBet(apu03);
-			cli01.addBet(apu04);
-
-			cg.addBet(apu01);
-			cg.addBet(apu02);
-			cg.addBet(apu03);
-			cg.addBet(apu04);
-
-			db.persist(apu01);
-			db.persist(apu02);
-			db.persist(apu03);
-			db.persist(apu04);
-
-			db.getTransaction().commit();
-			System.out.println("Db initialized");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+		/*
+		 * db.getTransaction().begin(); try {
+		 * 
+		 * Calendar today = Calendar.getInstance();
+		 * 
+		 * int month = today.get(Calendar.MONTH); month += 1; int year =
+		 * today.get(Calendar.YEAR); if (month == 12) { month = 0; year += 1; }
+		 * 
+		 * Event ev1 = new Event(1, "Atletico-Athletic", UtilDate.newDate(year, month,
+		 * 17)); Question q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
+		 * 
+		 * Event ev2 = new Event(2, "Eibar-Barcelona", UtilDate.newDate(year, month,
+		 * 17)); Event ev3 = new Event(3, "Getafe-Celta", UtilDate.newDate(year, month,
+		 * 17)); Event ev4 = new Event(4, "AlavÃ©s-Deportivo", UtilDate.newDate(year,
+		 * month, 17)); Event ev5 = new Event(5, "EspaÃ±ol-Villareal",
+		 * UtilDate.newDate(year, month, 17)); Event ev6 = new Event(6,
+		 * "Las Palmas-Sevilla", UtilDate.newDate(year, month, 17)); Event ev7 = new
+		 * Event(7, "Malaga-Valencia", UtilDate.newDate(year, month, 17)); Event ev8 =
+		 * new Event(8, "Girona-LeganÃ©s", UtilDate.newDate(year, month, 17)); Event ev9
+		 * = new Event(9, "Real Sociedad-Levante", UtilDate.newDate(year, month, 17));
+		 * Event ev10 = new Event(10, "Betis-Real Madrid", UtilDate.newDate(year, month,
+		 * 17));
+		 * 
+		 * Event ev11 = new Event(11, "AtlÃ©tico-Athletic", UtilDate.newDate(year,
+		 * month, 1)); Event ev12 = new Event(12, "Eibar-Barcelona",
+		 * UtilDate.newDate(year, month, 1)); Event ev13 = new Event(13, "Getafe-Celta",
+		 * UtilDate.newDate(year, month, 1)); Event ev14 = new Event(14,
+		 * "AlavÃ©s-Deportivo", UtilDate.newDate(year, month, 1)); Event ev15 = new
+		 * Event(15, "EspaÃ±ol-Villareal", UtilDate.newDate(year, month, 1)); Event ev16
+		 * = new Event(16, "Las Palmas-Sevilla", UtilDate.newDate(year, month, 1));
+		 * 
+		 * Event ev17 = new Event(17, "MÃ¡laga-Valencia", UtilDate.newDate(year, month,
+		 * 28)); Event ev18 = new Event(18, "Girona-LeganÃ©s", UtilDate.newDate(year,
+		 * month, 28)); Event ev19 = new Event(19, "Real Sociedad-Levante",
+		 * UtilDate.newDate(year, month, 28)); Event ev20 = new Event(20,
+		 * "Betis-Real Madrid", UtilDate.newDate(year, month, 28));
+		 * 
+		 * Question q2 = ev1.addQuestion("Â¿QuiÃ©n meterÃ¡ el primer gol?", 2); Question
+		 * q3 = ev11.addQuestion("Â¿QuiÃ©n ganarÃ¡ el partido?", 1); Question q4 =
+		 * ev11.addQuestion("Â¿CuÃ¡ntos goles se marcarÃ¡n?", 2); Question q5 =
+		 * ev17.addQuestion("Â¿QuiÃ©n ganarÃ¡ el partido?", 1); Question q6 =
+		 * ev17.addQuestion("Â¿HabrÃ¡ goles en la primera parte?", 2);
+		 * 
+		 * Answer ans01 = q1.addAnswer("Gana AtlÃ©tico", (float) 1.5); Answer ans02 =
+		 * q1.addAnswer("Gana Athletic", (float) 2.0); Answer ans03 =
+		 * q1.addAnswer("Empate", (float) 3.5); Answer ans04 = q1.addAnswer("Sin goles",
+		 * (float) 2.5);
+		 * 
+		 * Answer ans05 = q2.addAnswer("Jugador 1", (float) 4.5); Answer ans06 =
+		 * q2.addAnswer("Jugador 2", (float) 1.6); Answer ans07 =
+		 * q2.addAnswer("Jugador 3", (float) 6.0); Answer ans08 =
+		 * q2.addAnswer("Jugador 4", (float) 2.5);
+		 * 
+		 * db.persist(q1); db.persist(q2); db.persist(q3); db.persist(q4);
+		 * db.persist(q5); db.persist(q6);
+		 * 
+		 * db.persist(ev1); db.persist(ev2); db.persist(ev3); db.persist(ev4);
+		 * db.persist(ev5); db.persist(ev6); db.persist(ev7); db.persist(ev8);
+		 * db.persist(ev9); db.persist(ev10); db.persist(ev11); db.persist(ev12);
+		 * db.persist(ev13); db.persist(ev14); db.persist(ev15); db.persist(ev16);
+		 * db.persist(ev17); db.persist(ev18); db.persist(ev19); db.persist(ev20);
+		 * 
+		 * db.persist(ans01); db.persist(ans02); db.persist(ans03); db.persist(ans04);
+		 * 
+		 * db.persist(ans05); db.persist(ans06); db.persist(ans07); db.persist(ans08);
+		 * 
+		 * // USUARIOS CLIENTES Cliente cli01 = new Cliente("user1", "pass1",
+		 * "user1@mail.com", (float) 10.11, "Usuario1 Apellido1",
+		 * "ES12 3445 4567 2320 3456 8654 1234", "1245 6543 3456 8766"); Cliente cli02 =
+		 * new Cliente("user2", "pass2", "user2@mail.com", (float) 20.22,
+		 * "Usuario2 Apellido2", "ES23 3445 4567 2320 3456 8654 1234",
+		 * "2345 6543 3456 8766"); Cliente cli03 = new Cliente("user3", "pass3",
+		 * "user3@mail.com", (float) 30.33, "Usuario3 Apellido3",
+		 * "ES34 3445 4567 2320 3456 8654 1234", "3445 6543 3456 8766"); Cliente cli04 =
+		 * new Cliente("user4", "pass4", "user4@mail.com", (float) 40.44,
+		 * "Usuario4 Apellido4", "ES45 3445 4567 2320 3456 8654 1234",
+		 * "4545 6543 3456 8766"); Cliente cli05 = new Cliente("user5", "pass5",
+		 * "user5@mail.com", (float) 50.55, "Usuario5 Apellido5",
+		 * "ES56 3445 4567 2320 3456 8654 1234", "5645 6543 3456 8766"); Cliente cli =
+		 * new Cliente("u", "", "user@mail.com", (float) 10.11, "Usuario1 Apellido1",
+		 * "ES12 3445 4567 2320 3456 8654 1234", "1245 6543 3456 8766");
+		 * 
+		 * db.persist(cli); db.persist(cli02); db.persist(cli03); db.persist(cli04);
+		 * db.persist(cli05);
+		 * 
+		 * // USUARIOS ADMINISTRADORES Admin adm = new Admin("", "admin@mail.com", "");
+		 * Admin adm01 = new Admin("admin1", "admin1@mail.com", "pass1"); Admin adm02 =
+		 * new Admin("admin2", "admin2@mail.com", "pass2");
+		 * 
+		 * db.persist(adm); db.persist(adm01); db.persist(adm02);
+		 * 
+		 * // CUENTA GLOBAL CuentaGlobal cg = new CuentaGlobal(1, (float) 1100.0);
+		 * db.persist(cg);
+		 * 
+		 * // PUESTAS DE PRUEBA EN CLIENTE 1 Apuesta apu01 = ans01.addBet((float) 10.0,
+		 * cli01); Apuesta apu02 = ans02.addBet((float) 20.0, cli01); Apuesta apu03 =
+		 * ans03.addBet((float) 30.0, cli01); Apuesta apu04 = ans04.addBet((float) 40.0,
+		 * cli01);
+		 * 
+		 * cli01.addBet(apu01); cli01.addBet(apu02); cli01.addBet(apu03);
+		 * cli01.addBet(apu04);
+		 * 
+		 * cg.addBet(apu01); cg.addBet(apu02); cg.addBet(apu03); cg.addBet(apu04);
+		 * 
+		 * db.persist(apu01); db.persist(apu02); db.persist(apu03); db.persist(apu04);
+		 * 
+		 * db.getTransaction().commit(); System.out.println("Db initialized"); } catch
+		 * (Exception e) { e.printStackTrace(); }
+		 */
 	}
-	
+	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * 				BRYAN
+	 */
+
 	public Cliente getClientByUsername(String pusername) {
 		List<Cliente> cliList = getAllClients();
 		for (Cliente c : cliList) {
@@ -244,24 +205,87 @@ public class DataAccess {
 		}
 		return null;
 	}
+
+	public boolean clientExist(String pusername) {
+		List<Cliente> cliList = getAllClients();
+		for (Cliente c : cliList) {
+			if (c.getUsername().equals(pusername))
+				return true;
+		}
+		return false;
+	}
+
+	public List<Cliente> getAllClients() {
+		System.out.println(">> DataAccess: getClientByUsername");
+		TypedQuery<Cliente> query = db.createQuery("SELECT cli FROM Cliente cli", Cliente.class);
+		return query.getResultList();
+	}
+
+	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * 				MAURI 	
+	 */
+
+	public ArrayList<Apuesta> BetsByClient(Cliente a) {
+		List<Apuesta> ApuList = getAllApuestas();
+		ArrayList<Apuesta> BetList = new ArrayList<Apuesta>();
+		for (Apuesta q : ApuList) {
+			if (q.getCliente().getUsername().equals(a.getUsername())) {
+				BetList.add(q);
+			}
+		}
+		return BetList;
+	}
 	
-	public List<Apuesta> getAllApuestas(){
+	public List<Apuesta> getAllApuestas() {
 		TypedQuery<Apuesta> query = db.createQuery("SELECT q FROM Apuesta q", Apuesta.class);
 		List<Apuesta> ApuList = query.getResultList();
 		return ApuList;
 	}
 
-	public ArrayList<Apuesta> BetsByClient(Cliente a) { 
-		List<Apuesta> ApuList = getAllApuestas();
-		ArrayList<Apuesta> BetList= new ArrayList<Apuesta>();
-			for (Apuesta q : ApuList) {
-				if (q.getCliente().getUsername().equals(a.getUsername())) {
-					BetList.add(q);
+	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	* 				JORGE 	
+	*/
+	public ArrayList<Answer> getAnswersByQuestion(Question p) {
+		List<Question> qList = getAllQuestions();
+
+		if (qList.isEmpty()) {
+			System.out.println("No questions in BD");
+			return null;
+		} else {
+			ArrayList<Answer> result = new ArrayList<Answer>();
+			Vector<Answer> respuestas = new Vector<Answer>();
+			boolean pregIguales;
+			for (Question q : qList) {
+				pregIguales = q.getQuestionNumber().equals(p.getQuestionNumber());
+				if (pregIguales) {
+					respuestas = q.getAnswers();
+					for (Answer ans : respuestas) {
+						ans.toString();
+						result.add(ans);
+					}
 				}
 			}
-			return BetList;
-		
+			return result;
+		}
 	}
+	
+	public boolean questionExist(Question que) {
+		List<Question> List = getAllQuestions();
+		for (Question q : List) {
+			if (q.getQuestionNumber().equals(que.getQuestionNumber()))
+				return true;
+		}
+		return false;
+	}
+	
+	public ArrayList<Question> getAllQuestions(){
+		TypedQuery<Question> query = db.createQuery("SELECT q FROM Question q", Question.class);
+		List<Question> qList = query.getResultList();
+		return (ArrayList<Question>) qList;
+	}
+	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	*/
+	
 	
 	public void close() {
 		db.close();
@@ -465,30 +489,6 @@ public class DataAccess {
 
 	}
 
-	public List<Answer> getAnswersByQuestion(Question p) {
-		TypedQuery<Question> query = db.createQuery("SELECT q FROM Question q", Question.class);
-		List<Question> qList = query.getResultList();
-
-		if (qList.isEmpty()) {
-			System.out.println("No questions in BD");
-			return null;
-		} else {
-			ArrayList<Answer> result = new ArrayList<Answer>();
-			Vector<Answer> respuestas = new Vector<Answer>();
-			boolean pregIguales;
-			for (Question q : qList) {
-				pregIguales = q.getQuestionNumber().equals(p.getQuestionNumber());
-				if (pregIguales) {
-					respuestas = q.getAnswers();
-					for (Answer ans : respuestas) {
-						ans.toString();
-						result.add(ans);
-					}
-				}
-			}
-			return result;
-		}
-	}
 
 	public List<Answer> getOpenAnswersByQuestion(Question pselectedQuestion) {
 		TypedQuery<Question> query = db.createQuery("SELECT q FROM Question q WHERE q.questionNumber=?1",
@@ -583,8 +583,6 @@ public class DataAccess {
 		return null;
 
 	}
-	
-	
 
 	public boolean insertSomething(Object something) {
 		try {
@@ -794,23 +792,6 @@ public class DataAccess {
 			return false;
 		}
 	}
-
-	public List<Cliente> getAllClients() {
-		System.out.println(">> DataAccess: getClientByUsername");
-		TypedQuery<Cliente> query = db.createQuery("SELECT cli FROM Cliente cli", Cliente.class);
-		return query.getResultList();
-	}
-	
-	public boolean clientExist(String pusername) {
-		List<Cliente> cliList = getAllClients();
-		for (Cliente c : cliList) {
-			if (c.getUsername().equals(pusername))
-				return true;
-		}
-		return false;
-	}
-
-	
 
 	public boolean updateQuestion(Question pselectedQuestion, String r, float f) {
 		try {
