@@ -117,6 +117,7 @@ class DataAccessTest {
 			ArrayList<Apuesta> expected = new ArrayList<Apuesta>();
 			expected.add(e);
 			ArrayList<Apuesta> obtained = sut.BetsByClient(c);
+			System.out.println(expected.toString()+" "+obtained.toString());
 			assertEquals(expected, obtained);
 		} catch (Exception e) {
 			e.printStackTrace();

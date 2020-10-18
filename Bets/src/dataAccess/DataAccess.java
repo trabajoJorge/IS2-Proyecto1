@@ -237,7 +237,7 @@ public class DataAccess {
 	}
 
 	public List<Apuesta> getAllApuestas() {
-		TypedQuery<Apuesta> query = db.createQuery("SELECT q FROM Apuesta q", Apuesta.class);
+		TypedQuery<Apuesta>  query = db.createQuery("SELECT q FROM Apuesta q", Apuesta.class);
 		List<Apuesta> ApuList = query.getResultList();
 		return ApuList;
 	}

@@ -63,13 +63,13 @@ class FacadeMockTest {
 			// invoke System Under Test (sut)
 			assertThrows(QuestionAlreadyExist.class, () -> sut.createQuestion(mockedEvent, queryText, betMinimum));
 
-		} catch (ParseException | QuestionAlreadyExist e) {
+		} catch (ParseException |  QuestionAlreadyExist e) {
 			fail("No problems should arise: ParseException/QuestionaAlreadyExist");
 		}
 	}
 
 	@Test
-	@DisplayName("The event has NOT a question with a queryText")
+	@DisplayName("The event has NOT a question   with a queryText")
 	void createQuestionBLMocktest2() {
 
 		try {
