@@ -247,7 +247,6 @@ public class DataAccess {
 	*/
 	public ArrayList<Answer> getAnswersByQuestion(Question p) {
 		List<Question> qList = getAllQuestions();
-
 		if (qList.isEmpty()) {
 			System.out.println("No questions in BD");
 			return null;
