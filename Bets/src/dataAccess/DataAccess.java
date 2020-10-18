@@ -235,7 +235,7 @@ public class DataAccess {
 		}
 		return BetList;
 	}
-	
+
 	public List<Apuesta> getAllApuestas() {
 		TypedQuery<Apuesta> query = db.createQuery("SELECT q FROM Apuesta q", Apuesta.class);
 		List<Apuesta> ApuList = query.getResultList();
@@ -247,27 +247,22 @@ public class DataAccess {
 	*/
 	public ArrayList<Answer> getAnswersByQuestion(Question p) {
 		List<Question> qList = getAllQuestions();
-		if (qList.isEmpty()) {
-			System.out.println("No questions in BD");
-			return null;
-		} else {
-			ArrayList<Answer> result = new ArrayList<Answer>();
-			Vector<Answer> respuestas = new Vector<Answer>();
-			boolean pregIguales;
-			for (Question q : qList) {
-				pregIguales = q.getQuestionNumber().equals(p.getQuestionNumber());
-				if (pregIguales) {
-					respuestas = q.getAnswers();
-					for (Answer ans : respuestas) {
-						ans.toString();
-						result.add(ans);
-					}
+		ArrayList<Answer> result = new ArrayList<Answer>();
+		Vector<Answer> respuestas = new Vector<Answer>();
+		boolean pregIguales;
+		for (Question q : qList) {
+			pregIguales = q.getQuestionNumber().equals(p.getQuestionNumber());
+			if (pregIguales) {
+				respuestas = q.getAnswers();
+				for (Answer ans : respuestas) {
+					ans.toString();
+					result.add(ans);
 				}
 			}
-			return result;
 		}
+		return result;
 	}
-	
+
 	public boolean questionExist(Question que) {
 		List<Question> List = getAllQuestions();
 		for (Question q : List) {
@@ -276,16 +271,15 @@ public class DataAccess {
 		}
 		return false;
 	}
-	
-	public ArrayList<Question> getAllQuestions(){
+
+	public ArrayList<Question> getAllQuestions() {
 		TypedQuery<Question> query = db.createQuery("SELECT q FROM Question q", Question.class);
 		List<Question> qList = query.getResultList();
 		return (ArrayList<Question>) qList;
 	}
 	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	*/
-	
-	
+
 	public void close() {
 		db.close();
 		System.out.println("DataBase closed ");
@@ -487,7 +481,6 @@ public class DataAccess {
 		}
 
 	}
-
 
 	public List<Answer> getOpenAnswersByQuestion(Question pselectedQuestion) {
 		TypedQuery<Question> query = db.createQuery("SELECT q FROM Question q WHERE q.questionNumber=?1",
