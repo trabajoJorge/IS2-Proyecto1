@@ -1,4 +1,5 @@
 package junitMock;
+
 /**
  * FacadeMockTest: Some JUnit+Mock example for FacadeMock
  */
@@ -9,23 +10,25 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
 import dataAccess.DataAccess;
+import domain.Answer;
 import domain.Event;
 import domain.Question;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
-
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 class FacadeMockTest {
 	private String queryText = "A question";
@@ -99,5 +102,74 @@ class FacadeMockTest {
 
 		}
 	}
+	
+	@Test
+	@DisplayName("getAnswersByQuestionMock1 - Todo funciona correctamente")
+	void createQuestionMock1() {
 
+		try {
+			Date oneDate;
+			oneDate = sdf.parse("02/05/2021");
+			Event e1 = new Event("Carreras", oneDate);
+			Question q1 = new Question("¿Ganador?", 12.0f, e1);
+			Answer a11 = new Answer("FC Barcelona", 2.0f, q1);
+			Answer a12 = new Answer("Malaga", 20.0f, q1);
+			ArrayList<Question> ArrayQuestions= new ArrayList<Question>();
+			ArrayList<Answer> ArrayAnswers= new ArrayList<Answer>();
+			ArrayQuestions.add(q1);
+			ArrayAnswers.add(a11);
+			ArrayAnswers.add(a12);
+			Mockito.doReturn(ArrayQuestions).when(dataAccess).getAllQuestions();
+			Mockito.doReturn(true).when(dataAccess).questionExist(q1);
+			Mockito.doReturn(ArrayAnswers).when(dataAccess).getAnswersByQuestion(q1);
+			List<Answer> expected = ArrayAnswers;
+			List<Answer> obtained = sut.getAnswersByQuestion(q1);
+			assertEquals(expected, obtained);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	@DisplayName("getAnswersByQuestionMock3 - La pregunta no esta en la BD")
+	void createQuestionMock3() {
+
+		try {
+			Date oneDate;
+			oneDate = sdf.parse("02/05/2021");
+			Event e2 = new Event("Tractores", oneDate);
+			Question q2 = new Question("¿Goleador", 20.0f, e2);
+			Event e1 = new Event("Carreras", oneDate);
+			Question q1 = new Question("¿Ganador?", 12.0f, e1);
+			ArrayList<Question> ArrayQuestions= new ArrayList<Question>();
+			ArrayQuestions.add(q2);
+			Mockito.doReturn(ArrayQuestions).when(dataAccess).getAllQuestions();
+			Mockito.doReturn(false).when(dataAccess).questionExist(q1);
+			List<Answer> expected = null;
+			List<Answer> obtained = sut.getAnswersByQuestion(q1);
+			assertEquals(expected, obtained);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	@DisplayName("getAnswersByQuestionMock4 - La pregunta no tiene respuestas")
+	void createQuestionMock4() {
+		try {
+			Date oneDate;
+			oneDate = sdf.parse("02/05/2021");
+			Event e1 = new Event("Carreras", oneDate);
+			Question q1 = new Question("¿Ganador?", 12.0f, e1);
+			ArrayList<Question> ArrayQuestions= new ArrayList<Question>();
+			ArrayQuestions.add(q1);
+			Mockito.doReturn(ArrayQuestions).when(dataAccess).getAllQuestions();
+			Mockito.doReturn(true).when(dataAccess).questionExist(q1);
+			ArrayList<Answer> expected= new ArrayList<Answer>();
+			ArrayList<Answer> obtained = new ArrayList<Answer>(sut.getAnswersByQuestion(q1));
+			assertEquals(expected, obtained);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
 }

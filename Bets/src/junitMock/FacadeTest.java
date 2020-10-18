@@ -1,4 +1,5 @@
 package junitMock;
+
 /**
  * FacadeTest: Some JUnit example for Facade
  */
@@ -16,10 +17,12 @@ import org.junit.jupiter.api.Test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import businessLogic.BLFacadeImplementation;
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
+import domain.Answer;
 import domain.Event;
 import domain.Question;
 import exceptions.EventFinished;
@@ -97,4 +100,11 @@ class FacadeTest {
 		}
 	}
 
+	@Test
+	@DisplayName("getAnswersByQuestion2 - Se le arroja al metodo un null como parametro")
+	void createQuestionBLMocktest2() {
+		List<Answer> expected = null;
+		List<Answer> obtained = sut.getAnswersByQuestion(null);
+		assertEquals(expected, obtained);
+	}
 }

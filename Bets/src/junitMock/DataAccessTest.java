@@ -161,7 +161,6 @@ class DataAccessTest {
 	void getAnswersByQuestionTest3() {
 		try {
 			Date oneDate = sdf.parse("02/05/2021");
-			Date otherDate = sdf.parse("02/07/2021");
 			Event e1 = testBL.addEvent("Carreras", oneDate);
 			Question q1 = sut.createQuestion(e1, "¿Ganador?", 12.0f);
 			ArrayList<Answer> expected= new ArrayList<Answer>();
