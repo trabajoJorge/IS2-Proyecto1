@@ -1,4 +1,5 @@
 package junitMock;
+
 /**
  * DataAccessTest: Some JUnit example for DataAccess
  */
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +20,8 @@ import org.junit.jupiter.api.Test;
 
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
+import domain.Answer;
+import domain.Apuesta;
 import domain.Cliente;
 import domain.Event;
 import domain.Question;
@@ -78,20 +82,44 @@ class DataAccessTest {
 
 		} catch (QuestionAlreadyExist | ParseException e) {
 			fail("No problems should arise: ParseException/QuestionaAlreadyExist");
-		
+
 		} finally {
 			// Remove the created objects in the database (cascade removing)
 			boolean b = testBL.removeEvent(ev);
 			assertTrue(b);
 		}
 	}
+
 	@Test
 	@DisplayName("Prueba getClientByUsername")
 	void getClientByUsernameTest() {
 		sut.doRegister("Juanito0634", "Patata", "juan@gmail.com");
-		String obtained= sut.getClientByUsername("Juanito0634").getUsername();
-		String expected= (new Cliente("Juanito0634", "Patata", "juan@gmail.com")).getUsername();
+		String obtained = sut.getClientByUsername("Juanito0634").getUsername();
+		String expected = (new Cliente("Juanito0634", "Patata", "juan@gmail.com")).getUsername();
 		assertEquals(expected, obtained);
 	}
-	
+
+	@Test
+	@DisplayName("Prueba BetsByClient")
+	void betsByClientTest() {
+		try {
+			Date oneDate;
+			oneDate = sdf.parse("05/10/2022");
+			sut.doRegister("Juanito0634", "Patata", "juan@gmail.com");
+			Cliente c = sut.getClientByUsername("Juanito0634");
+			c.setSaldo(8000.0f);
+			ev = testBL.addEvent(queryText, oneDate);
+			Question q = sut.createQuestion(ev, queryText, betMinimum);
+			Answer a = new Answer(queryText, betMinimum, q);
+			sut.createApuesta(a, c, betMinimum, q);
+			Apuesta e = new Apuesta(a, betMinimum, oneDate, c);
+			ArrayList<Apuesta> expected = new ArrayList<Apuesta>();
+			expected.add(e);
+			ArrayList<Apuesta> obtained = sut.BetsByClient(c);
+			assertEquals(expected, obtained);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

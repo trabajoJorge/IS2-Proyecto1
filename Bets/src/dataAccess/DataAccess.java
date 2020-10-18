@@ -83,7 +83,7 @@ public class DataAccess {
 	 */
 	public void initializeDB() {
 
-		db.getTransaction().begin();
+		/*db.getTransaction().begin();
 		try {
 
 			Calendar today = Calendar.getInstance();
@@ -233,9 +233,36 @@ public class DataAccess {
 			System.out.println("Db initialized");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}*/
+	}
+	
+	public Cliente getClientByUsername(String pusername) {
+		List<Cliente> cliList = getAllClients();
+		for (Cliente c : cliList) {
+			if (c.getUsername().equals(pusername))
+				return c;
 		}
+		return null;
+	}
+	
+	public List<Apuesta> getAllApuestas(){
+		TypedQuery<Apuesta> query = db.createQuery("SELECT q FROM Apuesta q", Apuesta.class);
+		List<Apuesta> ApuList = query.getResultList();
+		return ApuList;
 	}
 
+	public ArrayList<Apuesta> BetsByClient(Cliente a) { 
+		List<Apuesta> ApuList = getAllApuestas();
+		ArrayList<Apuesta> BetList= new ArrayList<Apuesta>();
+			for (Apuesta q : ApuList) {
+				if (q.getCliente().getUsername().equals(a.getUsername())) {
+					BetList.add(q);
+				}
+			}
+			return BetList;
+		
+	}
+	
 	public void close() {
 		db.close();
 		System.out.println("DataBase closed");
@@ -547,11 +574,8 @@ public class DataAccess {
 
 	public Admin getAdminByUsername(String pusername) {
 		System.out.println(">> DataAccess: getAdminByUsername");
-
 		TypedQuery<Admin> query = db.createQuery("SELECT adm FROM Admin adm", Admin.class);
 		List<Admin> admList = query.getResultList();
-
-		// ArrayList<Admin> result = new ArrayList<Admin>();
 		for (Admin a : admList) {
 			if (a.getUsername().equals(pusername))
 				return a;
@@ -559,29 +583,8 @@ public class DataAccess {
 		return null;
 
 	}
-
-	public ArrayList<Apuesta> BetsByClient(Cliente a) { // Questions by event
-		TypedQuery<Apuesta> query = db.createQuery("SELECT q FROM Apuesta q", Apuesta.class);
-		List<Apuesta> ApuList = query.getResultList();
-		ArrayList<Apuesta> BetList;
-		if (ApuList.isEmpty()) {
-			System.out.println("No bets for that client");
-			return null;
-		} else {
-
-			// JOptionPane.showMessageDialog(null, "ApuList1; "+ApuList.size());
-			BetList = new ArrayList<Apuesta>();
-			for (Apuesta q : ApuList) {
-				if (q.getCliente().getUsername().equals(a.getUsername())) {
-					BetList.add(q);
-					// JOptionPane.showMessageDialog(null, "ApuList;
-					// "+q.getCliente().getUsername());
-				}
-			}
-
-			return BetList;
-		}
-	}
+	
+	
 
 	public boolean insertSomething(Object something) {
 		try {
@@ -797,15 +800,17 @@ public class DataAccess {
 		TypedQuery<Cliente> query = db.createQuery("SELECT cli FROM Cliente cli", Cliente.class);
 		return query.getResultList();
 	}
-
-	public Cliente getClientByUsername(String pusername) {
+	
+	public boolean clientExist(String pusername) {
 		List<Cliente> cliList = getAllClients();
 		for (Cliente c : cliList) {
 			if (c.getUsername().equals(pusername))
-				return c;
+				return true;
 		}
-		return null;
+		return false;
 	}
+
+	
 
 	public boolean updateQuestion(Question pselectedQuestion, String r, float f) {
 		try {
