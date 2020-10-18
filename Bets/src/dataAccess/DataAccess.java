@@ -265,7 +265,7 @@ public class DataAccess {
 	
 	public void close() {
 		db.close();
-		System.out.println("DataBase closed");
+		System.out.println("DataBase closed ");
 	}
 
 	public Question createQuestion(Event event, String question, float betMinimum) throws QuestionAlreadyExist {

@@ -207,7 +207,7 @@ public class BLFacadeImplementation implements BLFacade {
 		if (c == null) {
 			dbManager.close();
 			return null;
-		} else if (!(dbManager.clientExist(c.getUsername()))) {
+		} else if ( !(dbManager.clientExist(c.getUsername()))) {
 			dbManager.close();
 			return null;
 		}
