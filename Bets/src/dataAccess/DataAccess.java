@@ -357,23 +357,12 @@ public class DataAccess {
 	}
 
 	public boolean doRegister(String pusername, String ppassword, String pemail) throws RollbackException {
-
-		// Verifico que el usuario no exista
-		TypedQuery<Usuario> query = db.createQuery("SELECT us FROM Usuario us WHERE us.username=?1 and us.email=?2",
-				Usuario.class);
-		query.setParameter(1, pusername);
-		query.setParameter(2, pemail);
-		List<Usuario> usuarios = query.getResultList();
-		if (usuarios.isEmpty()) {
-			db.getTransaction().begin();
-			Cliente c = new Cliente(pusername, ppassword, pemail);
-			db.persist(c);
-			db.getTransaction().commit();
-			System.out.println("Usuario registrado ");
-			return true;
-		} else {
-			return false;
-		}
+		db.getTransaction().begin();
+		Cliente c = new Cliente(pusername, ppassword, pemail);
+		db.persist(c);
+		db.getTransaction().commit();
+		System.out.println("Usuario registrado ");
+		return true;
 	}
 
 	public boolean isAdmin(String pusername, String ppassword) {
@@ -802,7 +791,8 @@ public class DataAccess {
 			return false;
 		}
 	}
-	public List<Cliente> getAllClients(){
+
+	public List<Cliente> getAllClients() {
 		System.out.println(">> DataAccess: getClientByUsername");
 		TypedQuery<Cliente> query = db.createQuery("SELECT cli FROM Cliente cli", Cliente.class);
 		return query.getResultList();

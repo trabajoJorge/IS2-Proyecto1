@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
+import domain.Cliente;
 import domain.Event;
 import domain.Question;
 import exceptions.QuestionAlreadyExist;
@@ -84,4 +85,13 @@ class DataAccessTest {
 			assertTrue(b);
 		}
 	}
+	@Test
+	@DisplayName("Prueba getClientByUsername")
+	void getClientByUsernameTest() {
+		sut.doRegister("Juanito0634", "Patata", "juan@gmail.com");
+		String obtained= sut.getClientByUsername("Juanito0634").getUsername();
+		String expected= (new Cliente("Juanito0634", "Patata", "juan@gmail.com")).getUsername();
+		assertEquals(expected, obtained);
+	}
+	
 }

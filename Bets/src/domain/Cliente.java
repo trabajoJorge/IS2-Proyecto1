@@ -30,7 +30,6 @@ public class Cliente extends Usuario {
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	private Vector<Apuesta> apuestas=new Vector<Apuesta>();
 	
-	
 	//ACCESO A ATRIBUTOS
 	public void setBet (Vector<Apuesta> papuesta) {
 		this.apuestas = papuesta;
@@ -52,7 +51,7 @@ public class Cliente extends Usuario {
 		this.tarjeta = ptarjeta;
 	}
 	
-	public String getTarjeta () {
+	public String getTarjeta() {
 		return this.tarjeta;
 	}
 	
